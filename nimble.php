@@ -1,6 +1,12 @@
 <?php
 
-class ApiNimble
+/*
+ * NimbleApi class is written to intract with Nimble CRM Api
+ * @name: NimbleApi
+ * @version: 1.0
+ */
+ 
+class NimbleApi
 {
   const
     OAUTH_ACCESS_TOKEN_URL = "https://api.nimble.com/oauth/token?",
@@ -13,7 +19,7 @@ class ApiNimble
     $this->config = array(
       'api_key' => 'ABCDEF',
       'secret_key' => '12345',
-      'redirect_uri' => 'http://www.mywebsite.com/nimble/authorize'
+      'redirect_uri' => 'http://www.example.com/nimble/authorize'
     );
   }
 
