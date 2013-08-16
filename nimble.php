@@ -31,7 +31,7 @@ class NimbleApi
       'response_type' => 'code'
     );
 
-    return sprintf('%s%s', self::OAUTH_AUTHORIZE_URL, http_build_query($params, '', '&'))
+    return sprintf('%s%s', self::OAUTH_AUTHORIZE_URL, http_build_query($params, '', '&'));
   }
 
   public function requestAuthGrantCode()
