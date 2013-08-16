@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * NimbleApi class is written to intract with Nimble CRM Api
+ * @name: NimbleApi
+ * @version: 1.0
+ */
+ 
 class NimbleApi
 {
   const
