@@ -1,6 +1,6 @@
 <?php
 
-class ApiNimble
+class NimbleApi
 {
   const
     OAUTH_ACCESS_TOKEN_URL = "https://api.nimble.com/oauth/token?",
