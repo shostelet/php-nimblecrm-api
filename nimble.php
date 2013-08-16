@@ -13,7 +13,7 @@ class ApiNimble
     $this->config = array(
       'api_key' => 'ABCDEF',
       'secret_key' => '12345',
-      'redirect_uri' => 'http://www.mywebsite.com/nimble/authorize'
+      'redirect_uri' => 'http://www.example.com/nimble/authorize'
     );
   }
 
