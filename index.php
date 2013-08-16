@@ -1,6 +1,6 @@
 <?php
 require_once('nimble.php');
-$nimble = new ApiNimble();
+$nimble = new NimbleApi();
 ?>
 <!DOCTYPE html>
 <html>
