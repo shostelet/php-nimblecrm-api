@@ -62,6 +62,7 @@ class NimbleApi
     $params = array(
       'client_id' => $this->config['api_key'],
       'client_secret' => $this->config['secret_key'],
+      'redirect_uri' =>$this->config['redirect_uri'],
       'code' => $code,
       'grant_type' => 'authorization_code',
     );
