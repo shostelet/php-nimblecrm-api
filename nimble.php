@@ -62,6 +62,7 @@ class NimbleApi
     $params = array(
       'client_id' => $this->config['api_key'],
       'client_secret' => $this->config['secret_key'],
+      'redirect_uri' =>$this->config['redirect_uri'],
       'code' => $code,
       'grant_type' => 'authorization_code',
     );
@@ -79,19 +80,15 @@ class NimbleApi
 
     $json = json_decode($output, true);
 
-    if($response_code == 200)
-    {
-      $response['access_token'] = isset($json['access_token']) ? $json['access_token'] : '';
-      $response['expires_in'] = isset($json['expires_in']) ? $json['expires_in'] : '';
-      $response['refresh_token'] = isset($json['refresh_token']) ? $json['refresh_token'] : '';
-      $_SESSION['nimble'] = $response;
+    if($json['error']){
+    	throw new Exception($json['error'].': '.$json['error_description']);
     }
-    elseif(isset($json['int_err_code']))
+    elseif($response_code == 200)
     {
-      throw new vacNimbleException($json['msg'], $json['int_err_code']);
+    	return $json;
     }
-
-    return $response;
+    
+    return false;
   }
 
   public function getContactList($access_token)
