@@ -80,15 +80,14 @@ class NimbleApi
 
     $json = json_decode($output, true);
 
-    if($response_code == 200)
-    {
-      return $json;
+    if($json['error']){
+    	throw new Exception($json['error'].': '.$json['error_description']);
     }
-    elseif(isset($json['int_err_code']))
+    elseif($response_code == 200)
     {
-      throw new vacNimbleException($json['msg'], $json['int_err_code']);
+    	return $json;
     }
-
+    
     return false;
   }
 

@@ -21,13 +21,19 @@ $nimble = new NimbleApi();
     <?php elseif($_GET['code']): ?>
       <?php
       session_start();
-      $output = $nimble->requestAccessToken($_GET['code']);
+      try{
+
+	      $output = $nimble->requestAccessToken($_GET['code']);
+	      
+	      $response['access_token'] = isset($output['access_token']) ? $output['access_token'] : '';
+	      $response['expires_in'] = isset($output['expires_in']) ? $output['expires_in'] : '';
+	      $response['refresh_token'] = isset($output['refresh_token']) ? $output['refresh_token'] : '';      
+	      $_SESSION['nimble'] = $response;
+      }
+      catch(Exception $e){
       
-      $response['access_token'] = isset($output['access_token']) ? $output['access_token'] : '';
-      $response['expires_in'] = isset($output['expires_in']) ? $output['expires_in'] : '';
-      $response['refresh_token'] = isset($output['refresh_token']) ? $output['refresh_token'] : '';      
-      $_SESSION['nimble'] = $response;
-      
+      echo 'Caught exception: ',  $e->getMessage(), "\n";
+      }      
       var_dump($output);
       ?>
       Reload me !
