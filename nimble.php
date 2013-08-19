@@ -81,17 +81,14 @@ class NimbleApi
 
     if($response_code == 200)
     {
-      $response['access_token'] = isset($json['access_token']) ? $json['access_token'] : '';
-      $response['expires_in'] = isset($json['expires_in']) ? $json['expires_in'] : '';
-      $response['refresh_token'] = isset($json['refresh_token']) ? $json['refresh_token'] : '';
-      $_SESSION['nimble'] = $response;
+      return $json;
     }
     elseif(isset($json['int_err_code']))
     {
       throw new vacNimbleException($json['msg'], $json['int_err_code']);
     }
 
-    return $response;
+    return false;
   }
 
   public function getContactList($access_token)
