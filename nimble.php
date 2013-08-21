@@ -44,6 +44,7 @@ class NimbleApi
     $curl_handler = curl_init();
     curl_setopt($curl_handler, CURLOPT_URL, $this->requestAuthGrantCodeUrl());
     curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl_handler, CURLOPT_FOLLOWLOCATION, TRUE);
     curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $headers);
 
     $output = curl_exec($curl_handler);
