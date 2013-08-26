@@ -14,6 +14,8 @@ class NimbleApi
     OAUTH_REQUEST_URL = "https://api.nimble.com/api/v1/"
   ;
 
+  private $headers;
+  
   public function __construct()
   {
     $this->config = array(
@@ -21,6 +23,12 @@ class NimbleApi
       'secret_key' => '12345',
       'redirect_uri' => 'http://www.example.com/nimble/authorize'
     );
+    
+    $this->headers = array(
+    		'Accept' => 'application/json',
+    		'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
+    );
+        
   }
 
   public function requestAuthGrantCodeUrl()
@@ -36,16 +44,13 @@ class NimbleApi
 
   public function requestAuthGrantCode()
   {
-    $headers = array(
-      'Accept' => 'application/json',
-      'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
-    );
+
 
     $curl_handler = curl_init();
     curl_setopt($curl_handler, CURLOPT_URL, $this->requestAuthGrantCodeUrl());
     curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl_handler, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $this->headers);
 
     $output = curl_exec($curl_handler);
 
@@ -55,10 +60,7 @@ class NimbleApi
 
   public function requestAccessToken($code)
   {
-    $headers = array(
-      'Accept' => 'application/json',
-      'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
-    );
+
 
     $params = array(
       'client_id' => $this->config['api_key'],
@@ -73,7 +75,7 @@ class NimbleApi
     curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl_handler, CURLOPT_POST, 1);
     curl_setopt($curl_handler, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
-    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $this->headers);
 
     $output = curl_exec($curl_handler);
     $response_code = curl_getinfo($curl_handler, CURLINFO_HTTP_CODE);
@@ -94,10 +96,7 @@ class NimbleApi
 
   public function getContactList($access_token)
   {
-    $headers = array(
-      'Accept' => 'application/json',
-      'Content-Type' => 'application/json; charset=UTF-8'
-    );
+
 
     $params = array(
       'tags' => 1,
@@ -109,7 +108,7 @@ class NimbleApi
     $url = sprintf('%scontacts/list?%s', self::OAUTH_REQUEST_URL, http_build_query($params, '', '&'));
     curl_setopt($curl_handler, CURLOPT_URL, $url);
     curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $this->headers);
     $output = curl_exec($curl_handler);
     curl_close($curl_handler);
 
