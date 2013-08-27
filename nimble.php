@@ -94,6 +94,45 @@ class NimbleApi
     return false;
   }
 
+  public function requestRefreshToken($refresh_token)
+  {
+  
+  		
+  	$params = array(
+  			'client_id' => $this->config['api_key'],
+  			'client_secret' => $this->config['secret_key'],
+  			'redirect_uri' =>$this->config['redirect_uri'],
+  			'refresh_token' => $refresh_token,
+  			'grant_type' => 'refresh_token',
+  	);
+  		
+  	$curl_handler = curl_init();
+  	curl_setopt($curl_handler, CURLOPT_URL, self::OAUTH_ACCESS_TOKEN_URL);
+  	curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
+  	curl_setopt($curl_handler, CURLOPT_POST, 1);
+  	curl_setopt($curl_handler, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
+  	curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $this->headers);
+  		
+  	$output = curl_exec($curl_handler);
+  	$response_code = curl_getinfo($curl_handler, CURLINFO_HTTP_CODE);
+  	curl_close($curl_handler);
+  		
+  		
+  	$json = json_decode($output, true);
+  		
+  	if($json['error']){
+  		throw new Exception($json['error'].': '.$json['error_description']);
+  	}
+  	elseif($response_code == 200)
+  	{
+  		return $json;
+  	}
+  		
+  		
+  	return false;
+  }
+
+  
   public function getContactList($access_token)
   {
 
@@ -115,4 +154,8 @@ class NimbleApi
     $json = json_decode($output, true);
     return $json;
   }
+  
+
+
+    
 }
