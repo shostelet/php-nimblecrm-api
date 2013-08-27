@@ -156,6 +156,33 @@ class NimbleApi
   }
   
 
+		//@todo: searchContact function is not yet functioning properly. Just initiated	
+		  public function searchContact($access_token){
+		  
+		  	$params = array(
+		  			'access_token' => $access_token
+		  	);
+		  	
 
+		   	$query = array('and'=>array(array('twitter' =>array("is"=>"davidcumings"),'record type' =>array("is"=>"person")))); 
+
+	
+			//echo "<br>----------<BR>";
+
+
+		    $curl_handler = curl_init();
+		    $url = sprintf('%scontacts/?%s&query=%s', self::OAUTH_REQUEST_URL, http_build_query($params, '', '&'),rawurlencode(json_encode($query)));
+
+		    
+		    curl_setopt($curl_handler, CURLOPT_URL, $url);
+		    curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
+		    curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $this->headers);
+		    $output = curl_exec($curl_handler);
+		    curl_close($curl_handler);
+		
+		    $json = json_decode($output, true);
+		    return $json;
+		  
+		  }
     
 }
