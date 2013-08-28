@@ -181,18 +181,30 @@ class NimbleApi{
 	  
 	  }
 	  
-	  //@todo : add nimble contact functions is just initated, not yet functioning
 	  public function addContact($access_token,$query=array()){
-	  
+
 	  	$params = array(
 	  			'access_token' => $access_token
 	  	);
-	  
+	  	 
 	  	if(!is_array($query)){
 	  		throw new Exception('Search Query Must be in array format');
 	  	}
-	  	 
-	  	 
+	  		  	
+	  	$curl_handler = curl_init();
+	   	$url = sprintf('%scontact/?%s', self::OAUTH_REQUEST_URL,http_build_query($params, '', '&'));
+	  		  	
+	  	curl_setopt($curl_handler, CURLOPT_URL, $url);
+	  	curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
+	  	curl_setopt($curl_handler, CURLOPT_POST, 1);
+	  	curl_setopt($curl_handler, CURLOPT_POSTFIELDS,json_encode($query));
+	  	curl_setopt($curl_handler, CURLOPT_HTTPHEADER,array('Content-Type:application/json'));
+	  	$output = curl_exec($curl_handler);
+	  	curl_close($curl_handler);
+	  	
+	  	$json = json_decode($output, true);
+	  	return $json;		  	
+
 	  }  
     
 }
