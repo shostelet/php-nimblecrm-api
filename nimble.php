@@ -188,7 +188,7 @@ class NimbleApi{
 	  	);
 	  	 
 	  	if(!is_array($query)){
-	  		throw new Exception('Search Query Must be in array format');
+	  		throw new Exception('Query Must be in array format');
 	  	}
 	  		  	
 	  	$curl_handler = curl_init();
@@ -205,6 +205,31 @@ class NimbleApi{
 	  	$json = json_decode($output, true);
 	  	return $json;		  	
 
-	  }  
+	  }
+
+	  public function getContacts($access_token,$contactID=array()){
+	  
+	  	$params = array(
+	  			'access_token' => $access_token
+	  	);
+	  	 
+	  	if(!is_array($contactID)){
+	  		throw new Exception('contact id\'s Must be in array format');
+	  	}
+	  
+	  	$curl_handler = curl_init();
+	  	$url = sprintf('%scontact/%s?%s', self::OAUTH_REQUEST_URL,implode(',',$contactID), http_build_query($params, '', '&'));
+	  	 
+	  	 
+	  	curl_setopt($curl_handler, CURLOPT_URL, $url);
+	  	curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, 1);
+	  	curl_setopt($curl_handler, CURLOPT_HTTPHEADER, $this->headers);
+	  	$output = curl_exec($curl_handler);
+	  	curl_close($curl_handler);
+	  	 
+	  	$json = json_decode($output, true);
+	  	return $json;
+	  
+	  }	  
     
 }
